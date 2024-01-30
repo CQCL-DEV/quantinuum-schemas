@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "quantinuum-schemas"
+version = "0.1.0"
+description = "Shared data models for Quantinuum."
+authors = ["Matthew Burke <matthew.burke@quantinuum.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytket = "^1.24.0"
+pydantic = "^2.6.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.1.1"
+isort = "^5.13.2"
+mypy = "^1.8.0"
+pylint = "^3.0.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
