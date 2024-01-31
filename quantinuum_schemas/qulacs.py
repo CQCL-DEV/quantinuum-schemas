@@ -1,4 +1,4 @@
-"""Preset pytket compilation passes for Qulacs."""
+"""Configuration for Qulacs compilation and simulation."""
 from typing import Optional
 
 from pydantic import BaseModel
@@ -40,7 +40,7 @@ QULACS_PASS_LEVEL_2 = SequencePass(
 
 
 class QulacsSimulateRequest(BaseModel):
-    """Data required to instantiate a Qulacs backend and process_circuits.
+    """Data required to instantiate a Qulacs backend and then process_circuits.
 
     This DTO should be kept in sync with the constructor of the Backend defined in pytket-qulacs.
     """
