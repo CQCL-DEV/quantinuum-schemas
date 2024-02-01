@@ -17,7 +17,7 @@ test_circuit.Rx(0.5 + a, 0).Rx(-0.5 + b, 1).CZ(0, 1).Rx(0.5 + b, 0).Rx(-0.5 + a,
 test_circuit.measure_all()
 
 
-@pytest.mark.parametrize("")
+# @pytest.mark.parametrize("")
 def test_compile():
     config = QulacsConfig()
     qulacs_req = QulacsCompilationRequest(
