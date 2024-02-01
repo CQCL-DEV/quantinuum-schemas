@@ -1,52 +1,47 @@
 """Configuration for Qulacs compilation and simulation."""
-from typing import Optional
+from typing import Literal, Optional
 
 from pydantic import BaseModel
-from pytket.circuit import OpType
-from pytket.passes import (
-    DecomposeBoxes,
-    FlattenRegisters,
-    FullPeepholeOptimise,
-    SequencePass,
-    SynthesiseTket,
-)
-from pytket.passes.auto_rebase import auto_rebase_pass
 
-_TWO_QUBIT_GATES = {OpType.CX, OpType.CZ, OpType.SWAP}
-_ONE_QUBIT_GATES = {
-    OpType.X,
-    OpType.Y,
-    OpType.Z,
-    OpType.H,
-    OpType.S,
-    OpType.Sdg,
-    OpType.T,
-    OpType.Tdg,
-}
-_ONE_QUBIT_ROTATIONS = {OpType.Rx, OpType.Ry, OpType.Rz}
-_MEASURE_GATES = {OpType.Measure}
-_IBM_GATES = {OpType.U1, OpType.U2, OpType.U3}
-_1Q_GATES = _ONE_QUBIT_ROTATIONS | _ONE_QUBIT_GATES | _MEASURE_GATES | _IBM_GATES
-_ALL_GATES = _1Q_GATES | _TWO_QUBIT_GATES
-_rebase_pass = auto_rebase_pass(_ALL_GATES)
-
-QULACS_PASS_LEVEL_0 = SequencePass([DecomposeBoxes(), FlattenRegisters(), _rebase_pass])
-QULACS_PASS_LEVEL_1 = SequencePass(
-    [DecomposeBoxes(), FlattenRegisters(), SynthesiseTket(), _rebase_pass]
-)
-QULACS_PASS_LEVEL_2 = SequencePass(
-    [DecomposeBoxes(), FlattenRegisters(), FullPeepholeOptimise(), _rebase_pass]
+from quantinuum_schemas.models import (
+    CircuitStruct,
+    DefaultCompilationPassArgs,
+    ProcessCircuitsArgs,
 )
 
 
-class QulacsSimulateRequest(BaseModel):
-    """Data required to instantiate a Qulacs backend and then process_circuits.
+class QulacsConfig(BaseModel):
+    """Data required to instantiate a Qulacs backend."""
 
-    This DTO should be kept in sync with the constructor of the Backend defined in pytket-qulacs.
-    """
-
-    # Attributes required to instantiate the backend.
     result_type: str = "state_vector"
 
-    # Additional kwarg to process_circuits.
+
+class QulacsCompilationPassKwargs(BaseModel):
+    """Extra kwargs to default_compilation_pass for Qulacs."""
+
+
+class QulacsCompilationRequest(BaseModel):
+    """Qulacs config and any additional arguments to default_compilation_pass."""
+
+    name: Literal["QulacsCompilationRequest"] = "QulacsCompilationRequest"
+
+    config: QulacsConfig
+    circuit: CircuitStruct
+    args: DefaultCompilationPassArgs = DefaultCompilationPassArgs()
+    kwargs: QulacsCompilationPassKwargs = QulacsCompilationPassKwargs()
+
+
+class QulacsProcessKwargs(BaseModel):
+    """Extra kwargs to process_circuits for Qulacs."""
+
     seed: Optional[int] = None
+
+
+class QulacsSimulationRequest(BaseModel):
+    """Qulacs config and any additional kwargs to process_circuits."""
+
+    name: Literal["QulacsSimulationRequest"] = "QulacsSimulationRequest"
+
+    config: QulacsConfig
+    args: ProcessCircuitsArgs
+    kwargs: QulacsProcessKwargs = QulacsProcessKwargs()
