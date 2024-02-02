@@ -1,10 +1,11 @@
 """Configuration for Qulacs compilation and simulation."""
+
 from typing import Literal, Optional
 
 from pydantic import BaseModel
 
 from quantinuum_schemas.models import (
-    CircuitStruct,
+    CircuitModel,
     DefaultCompilationPassArgs,
     ProcessCircuitsArgs,
 )
@@ -16,7 +17,7 @@ class QulacsConfig(BaseModel):
     result_type: str = "state_vector"
 
 
-class QulacsCompilationPassKwargs(BaseModel):
+class QulacsCompilationPassKwargs(DefaultCompilationPassArgs, BaseModel):
     """Extra kwargs to default_compilation_pass for Qulacs."""
 
 
@@ -25,13 +26,12 @@ class QulacsCompilationRequest(BaseModel):
 
     name: Literal["QulacsCompilationRequest"] = "QulacsCompilationRequest"
 
-    config: QulacsConfig
-    circuit: CircuitStruct
-    args: DefaultCompilationPassArgs = DefaultCompilationPassArgs()
+    circuit: CircuitModel
     kwargs: QulacsCompilationPassKwargs = QulacsCompilationPassKwargs()
+    config: QulacsConfig = QulacsConfig()
 
 
-class QulacsProcessKwargs(BaseModel):
+class QulacsProcessKwargs(ProcessCircuitsArgs, BaseModel):
     """Extra kwargs to process_circuits for Qulacs."""
 
     seed: Optional[int] = None
@@ -42,6 +42,6 @@ class QulacsSimulationRequest(BaseModel):
 
     name: Literal["QulacsSimulationRequest"] = "QulacsSimulationRequest"
 
-    config: QulacsConfig
-    args: ProcessCircuitsArgs
+    circuits: list[CircuitModel]
     kwargs: QulacsProcessKwargs = QulacsProcessKwargs()
+    config: QulacsConfig = QulacsConfig()

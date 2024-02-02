@@ -1,4 +1,5 @@
 """Aggregate models exposed at the top level."""
+
 from typing import Literal, Union
 
 from pydantic import BaseModel, Field, RootModel
@@ -21,8 +22,12 @@ BackendConfig = AerConfig | QulacsConfig
 
 
 class CompilationRequest(RootModel):
+    """Root model for compilation requests."""
+
     root: CompilationRequestData = Field(..., discriminator="name")
 
 
 class SimulationRequest(RootModel):
+    """Root model for simulation requests."""
+
     root: SimulationRequestData = Field(..., discriminator="name")
