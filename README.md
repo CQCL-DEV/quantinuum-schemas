@@ -1,6 +1,8 @@
 # Quantinuum schemas
 
-Shared data models for Quantinuum.
+Public models that define API boundaries used by Quantinuum.  Intended to be
+used across teams and projects ie. shared. Backwards compatibility and semantic
+versioning are particularly important in this repo!
 
 ## Dependencies
 
