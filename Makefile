@@ -13,3 +13,7 @@ format:
 check:
 	poetry run pylint quantinuum_schemas tests
 	poetry run mypy quantinuum_schemas tests
+	poetry run isort --profile black --dont-follow-links --check .
+
+test:
+	poetry run pytest
