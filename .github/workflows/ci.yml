@@ -1,0 +1,71 @@
+name: Checks and tests
+
+on:
+  pull_request:
+    branches:
+      - "main"
+  push:
+    branches:
+      - main
+    
+jobs:
+  # installation:
+  #   name: Check package installs OK
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       python-version: ['3.10', '3.11', '3.12', '3.13']
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: '0'
+  #     - name: Cache poetry
+  #       uses: actions/cache@v3.3.1
+  #       with:
+  #         path: ~/.cache/pypoetry/virtualenvs
+  #         key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}
+  #     - name: Set up python ${{ matrix.python-version }}
+  #       uses: actions/setup-python@v4
+  #       with:
+  #         python-version: ${{ matrix.python-version }}
+  #     - name: Set up poetry
+  #       run: |
+  #         pip install pip==22.2.1 poetry==1.8.2
+  #         poetry run pip install --upgrade pip
+  #     - name: Install dependencies
+  #       run: |
+  #         poetry install --all-extras
+
+  check:
+    name: Checks and tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.10']
+        action: ['check', 'test']
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: Cache poetry
+        uses: actions/cache@v3.3.1
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('**/poetry.lock') }}
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up poetry
+        run: |
+          pip install pip==22.2.1 poetry==1.8.2
+          poetry run pip install --upgrade pip
+      - name: Install dependencies
+        run: |
+          poetry install --all-extras
+      - name: Perform '${{ matrix.action }}'
+        run: |
+          make ${{ matrix.action }}
+  

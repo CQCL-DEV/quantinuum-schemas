@@ -19,6 +19,7 @@ mypy = "^1.8.0"
 pylint = "^3.0.3"
 pytest = "^8.0.0"
 pytest-cov = "^4.1.0"
+commitizen = "^3.29.1"
 
 [build-system]
 requires = ["poetry-core"]
