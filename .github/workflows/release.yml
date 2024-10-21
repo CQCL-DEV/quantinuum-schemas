@@ -1,0 +1,29 @@
+name: Create release
+
+on:
+  release:
+    types: [created]
+  
+jobs:
+  build-and-publish:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '0'
+    - name: Set up python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name : Set up poetry
+      run: |
+        pip install pip==22.2.1 poetry==1.8.2
+        poetry run pip install --upgrade pip
+    - name: Install dependencies
+      run: |
+        poetry install --all-extras
+    - name: Build and publish to PyPI
+      run: |
+        make release

@@ -35,8 +35,8 @@ commits, follow these steps to publish.
   date. It also updates `.cz.toml`. The tool automatically decides whether to
   increment the patch version, minor version or major version.
 
-  If none of the commits since the last version tag would generate a CHANGELOG entry,
-  then you will see `NO_COMMITS_TO_BUMP`. In this situation,
+  If none of the commits since the last version tag would generate a CHANGELOG
+  entry, then you will see `NO_COMMITS_TO_BUMP`. In this situation,
 
   ```shell
   >$ # only if you see NO_COMMITS_TO_BUMP... add one to the patch number
@@ -59,4 +59,13 @@ commits, follow these steps to publish.
 
 ## Trigger the release workflow
 
-(TODO)
+- Go to github.com and on this repo's home page, click "Create a new release"
+- Using the version in the format `v1.2.34`, click "Choose a tag" and create a
+  new tag
+- Click "Generate release notes"
+- Release title = `v1.2.34`. In the "Describe this release" box, copy and paste
+  the new text that was added to CHANGELOG.md in the commit you are releasing.
+- Click "Publish release".
+- The "Create release" workflow should run automatically.
+- Check that the new release is on
+  https://pypi.org/project/quantinuum-schemas/#history
