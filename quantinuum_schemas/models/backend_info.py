@@ -5,6 +5,7 @@
 
 from __future__ import annotations
 
+from logging import getLogger
 from typing import Any, NewType, Optional, Union
 
 from pydantic import BaseModel, Field
@@ -12,6 +13,8 @@ from pytket.architecture import Architecture, FullyConnected
 from pytket.backends.backendinfo import BackendInfo
 from pytket.circuit import OpType
 from pytket.unit_id import Node, Qubit
+
+logger = getLogger(__name__)
 
 Register = NewType("Register", tuple[str, tuple[int, ...]])
 
@@ -172,7 +175,17 @@ class StoredBackendInfo(BaseModel):
             if self.device.fully_connected
             else Architecture(architecture_edge_list)
         )
-        gate_set = {getattr(OpType, gate) for gate in self.gate_set}
+
+        gate_set = set()
+
+        for gate in self.gate_set:
+            try:
+                gate_set.add(getattr(OpType, gate))
+            except AttributeError:
+                logger.warning(
+                    "Unknown OpType in BackendInfo: `%`, will omit from BackendInfo."
+                    " Consider updating your pytket version."
+                )
 
         return BackendInfo(
             name=self.name,
