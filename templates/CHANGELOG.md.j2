@@ -18,7 +18,7 @@
 
 {% for change in changes %}
 {% if change.message %}
-- woohoo {% if change.scope %} **{{ change.scope }}**:{% endif %} {{ change.message|capitalize }}{% if not change.message.endswith((".", "?", "!")) %}.{% endif %}
+-{% if change.scope %} **{{ change.scope }}**:{% endif %} {{ change.message|capitalize }}{% if not change.message.endswith((".", "?", "!")) %}.{% endif %}
 {% endif %}
 
 {% endfor %}
