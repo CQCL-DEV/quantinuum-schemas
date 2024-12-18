@@ -3,12 +3,12 @@
 
 ### Added
 
-- woohoo  Handle unknown optypes in backendinfo (#3).
+- Handle unknown optypes in backendinfo (#3).
 
 
 ### Fixed
 
-- woohoo  Support valid types for compiler options (#4).
+- Support valid types for compiler options (#4).
 
 
 ## v1.0.0 (2024-10-21)
