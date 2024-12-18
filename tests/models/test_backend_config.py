@@ -1,8 +1,10 @@
-from quantinuum_schemas.models.backend_config import AerConfig, QuantinuumCompilerOptions
+import pytest
 from pydantic import ValidationError
 
-import pytest
-
+from quantinuum_schemas.models.backend_config import (
+    AerConfig,
+    QuantinuumCompilerOptions,
+)
 
 
 def test_instantiation() -> None:
