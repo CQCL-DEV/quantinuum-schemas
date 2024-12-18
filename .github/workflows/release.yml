@@ -3,6 +3,7 @@ name: Create release
 on:
   release:
     types: [created]
+  workflow_dispatch: {}
   
 jobs:
   build-and-publish:
@@ -25,5 +26,7 @@ jobs:
       run: |
         poetry install --all-extras
     - name: Build and publish to PyPI
+      env:
+        QUANTINUUM_SCHEMAS_PYPI_TOKEN: ${{ secrets.QUANTINUUM_SCHEMAS_PYPI_TOKEN }}
       run: |
         make release
