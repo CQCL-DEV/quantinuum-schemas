@@ -153,8 +153,11 @@ class QuantinuumCompilerOptions(BaseModel):
         """Check that compiler option values are supported types."""
         for key in values:
             assert isinstance(
-                values[key], (str, int, bool)
+                values[key], (str, int, bool, float, list)
             ), "Compiler options must be str, bool or int"
+            if isinstance(values[key], list):
+                for x in values[key]:
+                    assert isinstance(x, float), "Lists must only contain floats"
         return values
 
 
